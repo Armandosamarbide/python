@@ -1,0 +1,45 @@
+# This validates the H1 headline and TITLE
+https://belonging.google/ //h1	text	Google — Building Together for Everyone
+//title	html	Google — Building Together for Everyone
+
+# This validates the link text
+https://belonging.google/ //a[@href="https://www.google.com/about/careers/applications/"]	text	Explore careers at Google
+
+# Validates the link path (href)
+https://belonging.google/ //a[@href="https://www.google.com/about/careers/applications/"]	href	https://www.google.com/about/careers/applications/
+
+# Open example.com and navigate to a new site (iana.org)
+https://belonging.google/
+//a	click	clicked
+//div[@id="logo"]	id	logo
+
+# This should fail bc the H1 is visible:
+//h1	visible	false
+# This should fail bc the H1 is visible:
+//h1	visible	FALSE
+# This should pass bc the H1 is visible:
+//h1	visible	true
+# This should pass bc the H1 is visible:
+//h1	visible	TRUE
+# This should fail b/c the tenth H1 element does not exist:			
+//h1[10]	text	Example Domains
+# This should fail bc the copy is wrong:
+//h1	text	The wrong copy
+# These should pass:
+//h1	text	Example Domains
+//h1	text:contains	ample Dom
+//h1	text:startswith	Example
+//h1	text:endswith	Domains
+
+# Check the font-size of an element
+# This should pass:
+//h1	style:font-size	28.8px
+# This should fail bc the font-size is 28.8:
+//h1	style:font-size	120px
+
+# Scroll to an element
+https://belonging.google/
+//footer	scrollTo	scrolled
+
+# Take a screenshot (expected value used for the filename)
+//html	screenshot	Homepage_screenshot

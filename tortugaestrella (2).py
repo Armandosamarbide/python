@@ -1,0 +1,15 @@
+import turtle
+pantalla=turtle.Screen()
+pantalla.bgcolor("black")
+turtle.getscreen()
+turtle.shape("turtle")
+turtle.shapesize(2,2,2)
+turtle.width(6)
+turtle.fillcolor()
+turtle.color("white","violet")
+turtle.begin_fill()
+for i in range (8):
+    turtle.forward(200)
+    turtle.left(135)
+turtle.end_fill()
+turtle.mainloop()
