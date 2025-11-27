@@ -1,0 +1,17 @@
+site_name: El Palacio de la Música
+
+nav:
+  - Home: index.md
+  - Alta: alta.md
+  - Baja: baja.md
+  - Modificación: modificacion.md
+  - Búsqueda: busqueda.md
+  - Listar todo: listartodo.md
+  - Utilidades: utilidades.md
+  - Crear BBDD: crearbase.md
+  - Interfaz: interfaz.md
+  
+  
+
+
+
