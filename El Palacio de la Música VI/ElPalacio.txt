@@ -1,0 +1,7 @@
+## Trabajo práctico Python: Nivel Intermedio
+## Alumno: Martín B. Salduna
+## Docente: Ing. Juan Barreto
+
+Github: https://github.com/Armandosamarbide/python/tree/main/El%20Palacio%20de%20la%20M%C3%BAsica%20VI
+
+Documentación: https://armandosamarbide.github.io/python/
