@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Documentación de notificaciones_poo</title>
+<style>
+body { font-family: Arial, sans-serif; margin: 40px; background-color: #f5f7fa; }
+h1 { color: #2c3e50; }
+pre { background: #272822; color: #f8f8f2; padding: 15px; border-radius: 6px; overflow-x: auto; }
+a { color: #2980b9; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.container { max-width: 1000px; margin: auto; background: #ffffff; padding: 30px; border-radius: 8px;
+             box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Módulo notificaciones_poo</h1>
+<p>Documentación generada para el módulo <code>notificaciones_poo.py</code> del proyecto Gestión de Seguros.</p>
+<pre>&quot;&quot;&quot;Módulo encargado de manejar notificaciones y avisos.&quot;&quot;&quot;
+
+from tkinter.messagebox import *
+
+def revisar_datos():
+    showerror(
+        &quot;ERROR&quot;,
+        (&quot;Revise los datos ingresados.&quot;
+         &quot;\nNombre / Apellido / Empresa / Uso / Cobertura solo aceptan letras y espacios,&quot;
+         &quot;\nMarca acepta letras, números y espacios,&quot;
+         &quot;\nAño debe ser numérico (4 dígitos),&quot;
+         &quot;\nDominio debe ser una patente válida (letras y números),&quot;
+         &quot;\nNúmero de póliza acepta letras, números y guiones,&quot;
+         &quot;\nFechas en formato dd/mm/aaaa,&quot;
+         &quot;\nImporte numérico con decimales opcionales.&quot;)   
+             )
+
+def no_fila(): showerror(&quot;ERROR&quot;, &quot;Ninguna fila fue seleccionada.&quot;)
+def p_eliminado(): showinfo(&quot;¡Listo!&quot;, &quot;El registro ha sido eliminado.&quot;)
+def p_modificado(): showinfo(&quot;¡Listo!&quot;, &quot;El registro ha sido modificado.&quot;)
+def confirmar_b(): return askyesno(&quot;Confirmación&quot;,&quot;¿Desea eliminar el registro seleccionado?&quot;)
+def b_cancelada(): showinfo(&quot;Confirmación&quot;, &quot;Se canceló la eliminación.&quot;)
+def confirmar_m(): return askyesno(&quot;Confirmación&quot;,&quot;¿Desea modificar el registro seleccionado?&quot;)
+def m_cancelada(): showinfo(&quot;Confirmación&quot;, &quot;Se canceló la modificación.&quot;)
+def avisar_vencimientos(texto): showinfo(&quot;Próximos vencimientos&quot;, texto)
+</pre>
+<p><a href="index.html">&larr; Volver al índice</a></p>
+</div>
+</body>
+</html>

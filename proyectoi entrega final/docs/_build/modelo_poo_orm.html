@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Documentación de modelo_poo_orm</title>
+<style>
+body { font-family: Arial, sans-serif; margin: 40px; background-color: #f5f7fa; }
+h1 { color: #2c3e50; }
+pre { background: #272822; color: #f8f8f2; padding: 15px; border-radius: 6px; overflow-x: auto; }
+a { color: #2980b9; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.container { max-width: 1000px; margin: auto; background: #ffffff; padding: 30px; border-radius: 8px;
+             box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Módulo modelo_poo_orm</h1>
+<p>Documentación generada para el módulo <code>modelo_poo_orm.py</code> del proyecto Gestión de Seguros.</p>
+<pre>&quot;&quot;&quot;Módulo del modelo que maneja la estructura de datos y conexión.&quot;&quot;&quot;
+
+import os
+from peewee import SqliteDatabase, Model, CharField, IntegerField, DateField, FloatField
+
+ruta_script = os.path.dirname(os.path.abspath(__file__))
+ruta_db = os.path.join(ruta_script, &quot;gestion_seguros.db&quot;)
+
+db = SqliteDatabase(ruta_db)
+
+class BaseModel(Model):
+    class Meta:
+        database = db
+
+class Poliza(BaseModel):
+    nombre = CharField()
+    apellido = CharField()
+    marca = CharField()
+    modelo = CharField()
+    anio = IntegerField()
+    empresa = CharField()
+    dominio = CharField()
+    uso_vehiculo = CharField()
+    numero_poliza = CharField()
+    tipo_cobertura = CharField()
+    fecha_inicio = DateField()
+    fecha_vencimiento = DateField()
+    importe = FloatField()
+</pre>
+<p><a href="index.html">&larr; Volver al índice</a></p>
+</div>
+</body>
+</html>

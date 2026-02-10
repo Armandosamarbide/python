@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Documentación de controlador_poo_orm</title>
+<style>
+body { font-family: Arial, sans-serif; margin: 40px; background-color: #f5f7fa; }
+h1 { color: #2c3e50; }
+pre { background: #272822; color: #f8f8f2; padding: 15px; border-radius: 6px; overflow-x: auto; }
+a { color: #2980b9; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.container { max-width: 1000px; margin: auto; background: #ffffff; padding: 30px; border-radius: 8px;
+             box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Módulo controlador_poo_orm</h1>
+<p>Documentación generada para el módulo <code>controlador_poo_orm.py</code> del proyecto Gestión de Seguros.</p>
+<pre>&quot;&quot;&quot;Módulo del controlador: gestiona operaciones principales.&quot;&quot;&quot;
+
+from modelo_poo_orm import db, Poliza
+from mis_regex_poo import (
+    patron_texto, patron_marca, patron_anio, patron_dominio,
+    patron_poliza, patron_importe, patron_fecha,
+                          )
+import re
+from datetime import datetime, date, timedelta
+
+db.connect()
+db.create_tables([Poliza])
+
+class AccionesControlador:
+    def _validar_regex(self, patron, valor):
+        return re.fullmatch(patron, valor) is not None
+
+    def _parsear_fecha(self, fecha_str):
+        return datetime.strptime(fecha_str, &quot;%d/%m/%Y&quot;).date()
+
+    def chequear_p(self, *args):
+        try:
+            (
+                nombre, apellido, marca, modelo, anio, empresa, dominio,
+                uso_vehiculo, numero_poliza, tipo_cobertura,
+                fecha_inicio, fecha_vencimiento, importe
+            ) = args
+
+            campos_ok = (
+                self._validar_regex(patron_texto, nombre)
+                and self._validar_regex(patron_texto, apellido)
+                and self._validar_regex(patron_marca, marca)
+                and self._validar_regex(patron_marca, modelo)
+                and self._validar_regex(patron_anio, anio)
+                and self._validar_regex(patron_texto, empresa)
+                and self._validar_regex(patron_dominio, dominio.upper())
+                and self._validar_regex(patron_texto, uso_vehiculo)
+                and self._validar_regex(patron_poliza, numero_poliza)
+                and self._validar_regex(patron_texto, tipo_cobertura)
+                and self._validar_regex(patron_fecha, fecha_inicio)
+                and self._validar_regex(patron_fecha, fecha_vencimiento)
+                and self._validar_regex(patron_importe, importe)
+                        )
+            if not campos_ok:
+                return False
+
+            anio_int = int(anio)
+            if anio_int &lt; 1900 or anio_int &gt; date.today().year + 1:
+                return False
+
+            f_ini = self._parsear_fecha(fecha_inicio)
+            f_vto = self._parsear_fecha(fecha_vencimiento)
+            if f_vto &lt;= f_ini:
+                return False
+
+            return True
+        except Exception:
+            return False
+
+    def _crear_datos(self, *args):
+        (nombre, apellido, marca, modelo, anio, empresa, dominio, uso_vehiculo, numero_poliza, tipo_cobertura, fecha_inicio, fecha_vencimiento, importe) = args
+
+        return dict(
+            nombre=nombre,
+            apellido=apellido,
+            marca=marca,
+            modelo=modelo,
+            anio=int(anio),
+            empresa=empresa,
+            dominio=dominio.upper(),
+            uso_vehiculo=uso_vehiculo,
+            numero_poliza=numero_poliza,
+            tipo_cobertura=tipo_cobertura,
+            fecha_inicio=self._parsear_fecha(fecha_inicio),
+            fecha_vencimiento=self._parsear_fecha(fecha_vencimiento),
+            importe=float(importe),
+                    )
+
+    def consulta(self):
+        try:
+            return Poliza.select()
+        except:
+            return []
+
+    def alta(self, *args):
+        try:
+            datos = self._crear_datos(*args)
+            Poliza.create(**datos)
+            return {
+                &#x27;completado&#x27;: True,
+                &#x27;titulo&#x27;: &quot;Operación exitosa&quot;,
+                &#x27;mensaje&#x27;: &quot;Registro agregado correctamente&quot;
+                   }
+        except Exception as e:
+            return {
+                &#x27;completado&#x27;: False,
+                &#x27;titulo&#x27;: &quot;Error en alta&quot;,
+                &#x27;mensaje&#x27;: str(e)
+                   }
+
+    def baja(self, db_id):
+        try:
+            fila = Poliza.get(Poliza.id == db_id)
+            fila.delete_instance()
+            return {
+                &#x27;completado&#x27;: True,
+                &#x27;titulo&#x27;: &quot;Operación exitosa&quot;,
+                &#x27;mensaje&#x27;: &quot;Registro eliminado&quot;
+                   }
+        except Exception as e:
+            return {
+                &#x27;completado&#x27;: False,
+                &#x27;titulo&#x27;: &quot;Error en baja&quot;,
+                &#x27;mensaje&#x27;: str(e)
+                   }
+
+    def modificar(self, *args, db_id):
+        try:
+            datos = self._crear_datos(*args)
+            Poliza.update(datos).where(Poliza.id == db_id).execute()
+            return {
+                &#x27;completado&#x27;: True,
+                &#x27;titulo&#x27;: &quot;Operación exitosa&quot;,
+                &#x27;mensaje&#x27;: &quot;Registro modificado&quot;
+                   }
+        except Exception as e:
+            return {
+                &#x27;completado&#x27;: False,
+                &#x27;titulo&#x27;: &quot;Error en modificación&quot;,
+                &#x27;mensaje&#x27;: str(e)
+                   }
+
+    def buscar(self, nombre_buscar, apellido_buscar):
+        try:
+            query = Poliza.select()
+            if nombre_buscar:
+                query = query.where(Poliza.nombre.contains(nombre_buscar))
+            if apellido_buscar:
+                query = query.where(Poliza.apellido.contains(apellido_buscar))
+            return {&#x27;completado&#x27;: True, &#x27;registros&#x27;: query}
+        except Exception as e:
+            return {&#x27;completado&#x27;: False, &#x27;titulo&#x27;: &quot;Error en búsqueda&quot;, &#x27;mensaje&#x27;: str(e)}
+
+    def proximos_vencimientos(self, dias=15):
+        try:
+            hoy = date.today()
+            limite = hoy + timedelta(days=dias)
+            return (
+                Poliza.select()
+                .where((Poliza.fecha_vencimiento &gt;= hoy) &amp; (Poliza.fecha_vencimiento &lt;= limite))
+                .order_by(Poliza.fecha_vencimiento)
+                   )
+        except:
+            return []
+</pre>
+<p><a href="index.html">&larr; Volver al índice</a></p>
+</div>
+</body>
+</html>

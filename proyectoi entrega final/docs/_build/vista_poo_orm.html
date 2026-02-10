@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Documentación de vista_poo_orm</title>
+<style>
+body { font-family: Arial, sans-serif; margin: 40px; background-color: #f5f7fa; }
+h1 { color: #2c3e50; }
+pre { background: #272822; color: #f8f8f2; padding: 15px; border-radius: 6px; overflow-x: auto; }
+a { color: #2980b9; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.container { max-width: 1000px; margin: auto; background: #ffffff; padding: 30px; border-radius: 8px;
+             box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Módulo vista_poo_orm</h1>
+<p>Documentación generada para el módulo <code>vista_poo_orm.py</code> del proyecto Gestión de Seguros.</p>
+<pre>&quot;&quot;&quot;Módulo de la vista: interfaz gráfica del sistema.&quot;&quot;&quot;
+
+import tkinter as tk
+from tkinter import ttk, messagebox
+from controlador_poo_orm import AccionesControlador
+from notificaciones_poo import *
+
+class IniciarSegurosAutomotor:
+    def __init__(self):
+        self.root = tk.Tk()
+        self.root.title(&quot;Gestión de Seguros de Automotor&quot;)
+
+        self.ac = AccionesControlador()
+
+        # Variables
+        self.var_nombre = tk.StringVar()
+        self.var_apellido = tk.StringVar()
+        self.var_marca = tk.StringVar()
+        self.var_modelo = tk.StringVar()
+        self.var_anio = tk.StringVar()
+        self.var_empresa = tk.StringVar()
+        self.var_dominio = tk.StringVar()
+        self.var_uso = tk.StringVar()
+        self.var_numero_poliza = tk.StringVar()
+        self.var_cobertura = tk.StringVar()
+        self.var_fecha_inicio = tk.StringVar()
+        self.var_fecha_vencimiento = tk.StringVar()
+        self.var_importe = tk.StringVar()
+
+        frame_form = tk.Frame(self.root)
+        frame_form.pack(fill=&quot;x&quot;, padx=10, pady=10)
+
+        # Columna izquierda
+        tk.Label(frame_form, text=&quot;Nombre&quot;).grid(row=0, column=0, sticky=&quot;w&quot;)
+        tk.Entry(frame_form, textvariable=self.var_nombre).grid(row=0, column=1)
+
+        tk.Label(frame_form, text=&quot;Apellido&quot;).grid(row=1, column=0, sticky=&quot;w&quot;)
+        tk.Entry(frame_form, textvariable=self.var_apellido).grid(row=1, column=1)
+
+        tk.Label(frame_form, text=&quot;Marca&quot;).grid(row=2, column=0, sticky=&quot;w&quot;)
+        tk.Entry(frame_form, textvariable=self.var_marca).grid(row=2, column=1)
+
+        tk.Label(frame_form, text=&quot;Modelo&quot;).grid(row=3, column=0, sticky=&quot;w&quot;)
+        tk.Entry(frame_form, textvariable=self.var_modelo).grid(row=3, column=1)
+
+        tk.Label(frame_form, text=&quot;Año&quot;).grid(row=4, column=0, sticky=&quot;w&quot;)
+        tk.Entry(frame_form, textvariable=self.var_anio).grid(row=4, column=1)
+
+        tk.Label(frame_form, text=&quot;Empresa&quot;).grid(row=5, column=0, sticky=&quot;w&quot;)
+        tk.Entry(frame_form, textvariable=self.var_empresa).grid(row=5, column=1)
+
+        # Columna derecha
+        etiquetas2 = [&quot;Dominio&quot;, &quot;Uso vehículo&quot;, &quot;N° póliza&quot;, &quot;Cobertura&quot;,
+                      &quot;F. inicio (dd/mm/aaaa)&quot;, &quot;F. vencimiento (dd/mm/aaaa)&quot;, &quot;Importe&quot;]
+        vars2 = [self.var_dominio, self.var_uso, self.var_numero_poliza, self.var_cobertura,
+                 self.var_fecha_inicio, self.var_fecha_vencimiento, self.var_importe]
+
+        for j, (etq, var) in enumerate(zip(etiquetas2, vars2)):
+            tk.Label(frame_form, text=etq).grid(row=j, column=2, sticky=&quot;w&quot;)
+            tk.Entry(frame_form, textvariable=var).grid(row=j, column=3)
+
+        # Botonera
+        frame_botones = tk.Frame(self.root)
+        frame_botones.pack(fill=&quot;x&quot;, padx=10, pady=5)
+
+        botones = [
+            (&quot;Agregar&quot;, self._btn_agregar),
+            (&quot;Modificar&quot;, self._btn_modificar),
+            (&quot;Eliminar&quot;, self._btn_eliminar),
+            (&quot;Buscar&quot;, self._btn_buscar),
+            (&quot;Limpiar&quot;, self._limpiar_campos),
+                  ]
+
+        for i, (texto, cmd) in enumerate(botones):
+            tk.Button(frame_botones, text=texto, width=12, command=cmd).grid(row=0, column=i, padx=5)
+
+        # TreeView
+        frame_tree = tk.Frame(self.root)
+        frame_tree.pack(fill=&quot;both&quot;, expand=True, padx=10, pady=10)
+
+        cols = (
+            &quot;nombre&quot;, &quot;apellido&quot;, &quot;marca&quot;, &quot;modelo&quot;, &quot;anio&quot;, &quot;empresa&quot;, &quot;dominio&quot;, &quot;uso&quot;, &quot;numero_poliza&quot;, &quot;cobertura&quot;, &quot;fecha_inicio&quot;, &quot;fecha_vencimiento&quot;, &quot;importe&quot;
+               )
+
+        self.tree = ttk.Treeview(frame_tree, columns=cols, show=&quot;headings&quot;)
+
+        for c in cols:
+            self.tree.heading(c, text=c.capitalize())
+            self.tree.column(c, width=100)
+
+        self.tree.pack(fill=&quot;both&quot;, expand=True)
+
+        self.tree.bind(&quot;&lt;&lt;TreeviewSelect&gt;&gt;&quot;, self._cargar_datos_seleccion)
+
+        # Cargar tabla
+        self._actualizar_tree(self.ac.consulta())
+
+        self.root.mainloop()
+
+    def _cargar_datos_seleccion(self, event=None):
+        item = self.tree.focus()
+        if not item:
+            return
+
+        valores = self.tree.item(item, &quot;values&quot;)
+        if not valores:
+            return
+
+        (nombre, apellido, marca, modelo, anio, empresa, dominio, uso, numero_poliza, cobertura, fecha_inicio, fecha_vencimiento, importe) = valores
+
+        self.var_nombre.set(nombre)
+        self.var_apellido.set(apellido)
+        self.var_marca.set(marca)
+        self.var_modelo.set(modelo)
+        self.var_anio.set(anio)
+        self.var_empresa.set(empresa)
+        self.var_dominio.set(dominio)
+        self.var_uso.set(uso)
+        self.var_numero_poliza.set(numero_poliza)
+        self.var_cobertura.set(cobertura)
+        self.var_fecha_inicio.set(fecha_inicio)
+        self.var_fecha_vencimiento.set(fecha_vencimiento)
+        self.var_importe.set(importe)
+
+    def _limpiar_campos(self):
+        self.var_nombre.set(&quot;&quot;)
+        self.var_apellido.set(&quot;&quot;)
+        self.var_marca.set(&quot;&quot;)
+        self.var_modelo.set(&quot;&quot;)
+        self.var_anio.set(&quot;&quot;)
+        self.var_empresa.set(&quot;&quot;)
+        self.var_dominio.set(&quot;&quot;)
+        self.var_uso.set(&quot;&quot;)
+        self.var_numero_poliza.set(&quot;&quot;)
+        self.var_cobertura.set(&quot;&quot;)
+        self.var_fecha_inicio.set(&quot;&quot;)
+        self.var_fecha_vencimiento.set(&quot;&quot;)
+        self.var_importe.set(&quot;&quot;)
+
+    def _actualizar_tree(self, filas):
+        for item in self.tree.get_children():
+            self.tree.delete(item)
+
+        for f in filas:
+            self.tree.insert(
+                &quot;&quot;, &quot;end&quot;,
+                values=(
+                    f.nombre, f.apellido, f.marca, f.modelo, f.anio, f.empresa,
+                    f.dominio, f.uso_vehiculo, f.numero_poliza, f.tipo_cobertura,
+                    f.fecha_inicio.strftime(&quot;%d/%m/%Y&quot;),
+                    f.fecha_vencimiento.strftime(&quot;%d/%m/%Y&quot;),
+                    f&quot;{f.importe:.2f}&quot;
+                       )
+                             )
+
+    def _obtener_id(self):
+        item = self.tree.focus()
+        if not item:
+            return None
+
+        nombre = self.tree.item(item, &quot;values&quot;)[0]
+        fila = self.ac.buscar(nombre, &quot;&quot;)
+        try:
+            return list(fila[&#x27;registros&#x27;])[0].id
+        except:
+            return None
+
+    def _btn_agregar(self):
+        args = (
+            self.var_nombre.get(), self.var_apellido.get(),
+            self.var_marca.get(), self.var_modelo.get(), self.var_anio.get(),
+            self.var_empresa.get(), self.var_dominio.get(), self.var_uso.get(),
+            self.var_numero_poliza.get(), self.var_cobertura.get(),
+            self.var_fecha_inicio.get(), self.var_fecha_vencimiento.get(),
+            self.var_importe.get()
+               )
+
+        if self.ac.chequear_p(*args):
+            resultado = self.ac.alta(*args)
+            if resultado[&#x27;completado&#x27;]:
+                messagebox.showinfo(resultado[&#x27;titulo&#x27;], resultado[&#x27;mensaje&#x27;])
+                self._actualizar_tree(self.ac.consulta())
+                self._limpiar_campos()
+        else:
+            messagebox.showerror(&quot;Error&quot;, &quot;Revisar los datos ingresados.&quot;)
+
+    def _btn_modificar(self):
+        db_id = self._obtener_id()
+        if not db_id:
+            return no_fila()
+
+        args = (
+            self.var_nombre.get(), self.var_apellido.get(),
+            self.var_marca.get(), self.var_modelo.get(), self.var_anio.get(),
+            self.var_empresa.get(), self.var_dominio.get(), self.var_uso.get(),
+            self.var_numero_poliza.get(), self.var_cobertura.get(),
+            self.var_fecha_inicio.get(), self.var_fecha_vencimiento.get(),
+            self.var_importe.get()
+               )
+
+        if self.ac.chequear_p(*args):
+            resultado = self.ac.modificar(*args, db_id=db_id)
+            if resultado[&#x27;completado&#x27;]:
+                messagebox.showinfo(resultado[&#x27;titulo&#x27;], resultado[&#x27;mensaje&#x27;])
+                self._actualizar_tree(self.ac.consulta())
+                self._limpiar_campos()
+        else:
+            messagebox.showerror(&quot;Error&quot;, &quot;Revisar los datos ingresados.&quot;)
+
+    def _btn_eliminar(self):
+        db_id = self._obtener_id()
+        if not db_id:
+            return no_fila()
+
+        resultado = self.ac.baja(db_id)
+        if resultado[&#x27;completado&#x27;]:
+            messagebox.showinfo(resultado[&#x27;titulo&#x27;], resultado[&#x27;mensaje&#x27;])
+            self._actualizar_tree(self.ac.consulta())
+            self._limpiar_campos()
+        else:
+            messagebox.showerror(resultado[&#x27;titulo&#x27;], resultado[&#x27;mensaje&#x27;])
+
+    def _btn_buscar(self):
+        nombre = self.var_nombre.get()
+        apellido = self.var_apellido.get()
+        resultado = self.ac.buscar(nombre, apellido)
+
+        if resultado[&#x27;completado&#x27;]:
+            self._actualizar_tree(resultado[&#x27;registros&#x27;])
+        else:
+            messagebox.showerror(resultado[&#x27;titulo&#x27;], resultado[&#x27;mensaje&#x27;])
+</pre>
+<p><a href="index.html">&larr; Volver al índice</a></p>
+</div>
+</body>
+</html>

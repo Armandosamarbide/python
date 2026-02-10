@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Documentación de mis_regex_poo</title>
+<style>
+body { font-family: Arial, sans-serif; margin: 40px; background-color: #f5f7fa; }
+h1 { color: #2c3e50; }
+pre { background: #272822; color: #f8f8f2; padding: 15px; border-radius: 6px; overflow-x: auto; }
+a { color: #2980b9; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.container { max-width: 1000px; margin: auto; background: #ffffff; padding: 30px; border-radius: 8px;
+             box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Módulo mis_regex_poo</h1>
+<p>Documentación generada para el módulo <code>mis_regex_poo.py</code> del proyecto Gestión de Seguros.</p>
+<pre>&quot;&quot;&quot;Módulo con expresiones regulares para validación básica.&quot;&quot;&quot;
+
+patron_texto = r&quot;[a-zA-ZáéíóúñÁÉÍÓÚÑ\s]+&quot;
+patron_marca = r&quot;[a-zA-Z0-9áéíóúñÁÉÍÓÚÑ\s]+&quot;
+patron_anio = r&quot;\d{4}&quot;
+patron_dominio = r&quot;[A-Z0-9\-]{5,8}&quot;
+patron_poliza = r&quot;[A-Za-z0-9\-]+&quot;
+patron_importe = r&quot;\d+(?:\.\d{1,2})?&quot;
+patron_fecha = r&quot;\d{2}/\d{2}/\d{4}&quot;
+</pre>
+<p><a href="index.html">&larr; Volver al índice</a></p>
+</div>
+</body>
+</html>

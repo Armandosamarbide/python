@@ -1,0 +1,5 @@
+TEST: Mensaje de prueba 1
+TEST: Mensaje de prueba 2
+[2026-02-08 16:01:43] Se ejecutó la función 'guardar_registro'.
+[2026-02-08 16:02:43] Se ejecutó la función 'guardar_cambios'.
+[2026-02-08 16:12:39] Se ejecutó la función 'guardar_registro'.

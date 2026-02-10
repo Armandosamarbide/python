@@ -1,0 +1,7 @@
+patron_texto = r"[a-zA-ZáéíóúñÁÉÍÓÚÑ\s]+"
+patron_marca = r"[a-zA-Z0-9áéíóúñÁÉÍÓÚÑ\s]+"
+patron_anio = r"\d{4}"
+patron_dominio = r"[A-Z0-9\-]{5,8}"
+patron_poliza = r"[A-Za-z0-9\-]+"
+patron_importe = r"\d+(?:\.\d{1,2})?"
+patron_fecha = r"\d{2}/\d{2}/\d{4}"
