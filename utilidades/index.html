@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../img/favicon.ico">
-        <title>Utilidades - El Palacio de la Música VI</title>
+        <title>Utilidades - El Palacio de la Música VII - Versión Final</title>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
         <link href="../css/fontawesome.min.css" rel="stylesheet">
         <link href="../css/brands.min.css" rel="stylesheet">
@@ -24,7 +24,7 @@
     <body>
         <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-                <a class="navbar-brand" href="..">El Palacio de la Música VI</a>
+                <a class="navbar-brand" href="..">El Palacio de la Música VII - Versión Final</a>
                 <!-- Expander button -->
                 <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -60,6 +60,9 @@
                             </li>
                             <li class="nav-item">
                                 <a href="../interfaz/" class="nav-link">Interfaz</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../decorador/" class="nav-link">Decorador</a>
                             </li>
                         </ul>
 
@@ -123,6 +126,26 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-bs-level="2"><a href="#logging" class="nav-link">Logging</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#server_logpy" class="nav-link">server_log.py</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#log_clientepy" class="nav-link">log_cliente.py</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#test_loggingpy" class="nav-link">test_logging.py</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_1" class="nav-link"></a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
         </ul>
@@ -131,7 +154,7 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="utilidades-utilidadespy-y-operaciones_miscpy">Utilidades (utilidades.py y operaciones_misc.py)</h1>
-<p>Estos módulos agrupan las funciones de mantenimiento y control general de la interfaz de la aplicación. </p>
+<p>Estos módulos agrupan las funciones de mantenimiento y control general de la interfaz de la aplicación.</p>
 <h2 id="modulo-principal-de-utilidades-utilidadespy">Módulo Principal de Utilidades (utilidades.py)</h2>
 <p>Este módulo gestiona el estado y el cierre de la aplicación.</p>
 <h2 id="limpieza-de-la-pantalla-limpiar_frame_center">Limpieza de la pantalla (limpiar_frame_center)</h2>
@@ -146,7 +169,16 @@ Llama a la función Regresar al Inicio (mostrar_inicio) para limpiar el panel ce
 <h2 id="cerrar-la-aplicacion-salir">Cerrar la Aplicación (salir)</h2>
 <p>Termina la ejecución de la aplicación (root.destroy()).</p>
 <h2 id="modulo-de-operaciones-miscelaneas-operaciones_miscpy">Módulo de Operaciones Misceláneas (operaciones_misc.py)</h2>
-<p>Este módulo llama a algunas funciones del módulo Utilidades.</p></div>
+<p>Este módulo llama a algunas funciones del módulo Utilidades.</p>
+<h2 id="logging">Logging</h2>
+<p>Estos componentes permiten que la aplicación envíe mensajes de estado o alertas de errores a un servidor.</p>
+<h2 id="server_logpy">server_log.py</h2>
+<p>Monitorea la red y guarda en un archivo (log_remoto.txt) la información que recibe.</p>
+<h2 id="log_clientepy">log_cliente.py</h2>
+<p>Este componente envía los mensajes al servidor. Si el servidor no está funcionando, lo ignora para no paralizar la ejecución del programa.</p>
+<h2 id="test_loggingpy">test_logging.py</h2>
+<p>Manda mensajes de prueba al servidor.</p>
+<h2 id="_1"></h2></div>
             </div>
         </div>
 
